@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.pyc
+backend/venv/
+
+# Variables de entorno
+.env
+*.env
+
+# Editor
+.vscode/
+.idea/
+
+# Node (para más adelante, frontend)
+node_modules/
+dist/
+
+# OS
+.DS_Store
+Thumbs.db
