@@ -1,0 +1,70 @@
+### Variables
+@baseUrl = http://localhost:8000
+@accessToken = 
+@refreshToken = 
+
+
+### Login - obtener access y refresh token
+POST {{baseUrl}}/api/token/
+Content-Type: application/json
+
+{
+  "username": "alexis",
+  "password": "passwordSuperuser"
+}
+
+
+### Refrescar el access token
+POST {{baseUrl}}/api/token/refresh/
+Content-Type: application/json
+
+{
+  "refresh": "{{refreshToken}}"
+}
+
+
+### Ver datos del usuario autenticado (/api/me/)
+GET {{baseUrl}}/api/me/
+Authorization: Bearer {{accessToken}}
+
+
+### Listar usuarios (requiere rol superuser)
+GET {{baseUrl}}/api/users/
+Authorization: Bearer {{accessToken}}
+
+
+### Crear usuario (requiere rol superuser)
+POST {{baseUrl}}/api/users/
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "username": "empleado2",
+  "password": "password123",
+  "email": "nuevo@example.com",
+  "role": "stock"
+}
+
+
+### Ver detalle de un usuario (requiere rol superuser)
+GET {{baseUrl}}/api/users/1/
+Authorization: Bearer {{accessToken}}
+
+
+### Editar un usuario (requiere rol superuser)
+PATCH {{baseUrl}}/api/users/1/
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "role": "hr"
+}
+
+
+### Borrar un usuario (requiere rol superuser)
+DELETE {{baseUrl}}/api/users/1/
+Authorization: Bearer {{accessToken}}
+
+
+### Admin (panel completo de Django)
+GET {{baseUrl}}/admin/
