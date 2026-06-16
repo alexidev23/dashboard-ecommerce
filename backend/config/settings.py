@@ -46,6 +46,7 @@ INSTALLED_APPS = [
 
     # Nuestras apps (las vamos a crear pronto)
     'users',
+    'inventory',
 ]
 
 MIDDLEWARE = [

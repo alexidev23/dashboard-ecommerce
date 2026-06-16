@@ -1,8 +1,7 @@
 ### Variables
 @baseUrl = http://localhost:8000
-@accessToken = 
+@accessToken =
 @refreshToken = 
-
 
 ### Login - obtener access y refresh token
 POST {{baseUrl}}/api/token/
@@ -10,9 +9,8 @@ Content-Type: application/json
 
 {
   "username": "alexis",
-  "password": "passwordSuperuser"
+  "password": "password"
 }
-
 
 ### Refrescar el access token
 POST {{baseUrl}}/api/token/refresh/
@@ -22,16 +20,13 @@ Content-Type: application/json
   "refresh": "{{refreshToken}}"
 }
 
-
 ### Ver datos del usuario autenticado (/api/me/)
 GET {{baseUrl}}/api/me/
 Authorization: Bearer {{accessToken}}
 
-
 ### Listar usuarios (requiere rol superuser)
 GET {{baseUrl}}/api/users/
 Authorization: Bearer {{accessToken}}
-
 
 ### Crear usuario (requiere rol superuser)
 POST {{baseUrl}}/api/users/
@@ -45,11 +40,9 @@ Content-Type: application/json
   "role": "stock"
 }
 
-
 ### Ver detalle de un usuario (requiere rol superuser)
 GET {{baseUrl}}/api/users/1/
 Authorization: Bearer {{accessToken}}
-
 
 ### Editar un usuario (requiere rol superuser)
 PATCH {{baseUrl}}/api/users/1/
@@ -60,11 +53,80 @@ Content-Type: application/json
   "role": "hr"
 }
 
-
 ### Borrar un usuario (requiere rol superuser)
 DELETE {{baseUrl}}/api/users/1/
 Authorization: Bearer {{accessToken}}
 
-
 ### Admin (panel completo de Django)
 GET {{baseUrl}}/admin/
+
+### Listar categorías
+GET {{baseUrl}}/api/inventory/categories/
+Authorization: Bearer {{accessToken}}
+
+### Crear categoría
+POST {{baseUrl}}/api/inventory/categories/
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "name": "Calzado",
+  "description": "Zapatos, zapatillas y botas"
+}
+
+### Listar productos
+GET {{baseUrl}}/api/inventory/products/
+Authorization: Bearer {{accessToken}}
+
+### Buscar productos por nombre
+GET {{baseUrl}}/api/inventory/products/?search=zapatilla urbana rojas
+Authorization: Bearer {{accessToken}}
+
+### Filtrar por categoría
+GET {{baseUrl}}/api/inventory/products/?category=1
+Authorization: Bearer {{accessToken}}
+
+### Ordenar por precio
+GET {{baseUrl}}/api/inventory/products/?ordering=price
+Authorization: Bearer {{accessToken}}
+
+### Productos con stock bajo
+GET {{baseUrl}}/api/inventory/products/low_stock/
+Authorization: Bearer {{accessToken}}
+
+### Crear producto
+POST {{baseUrl}}/api/inventory/products/
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "name": "Zapatilla urbana rojas",
+  "description": "Zapatilla urbana talle 22",
+  "price": "12500.00",
+  "stock": 20,
+  "low_stock_threshold": 5,
+  "category": 1,
+  "is_active": true
+}
+
+### Ver detalle de un producto
+GET {{baseUrl}}/api/inventory/products/1/
+Authorization: Bearer {{accessToken}}
+
+### Editar producto (parcial)
+PATCH {{baseUrl}}/api/inventory/products/1/
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "stock": 40
+}
+
+### Borrar producto (soft delete via is_active)
+PATCH {{baseUrl}}/api/inventory/products/1/
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "is_active": false
+}
