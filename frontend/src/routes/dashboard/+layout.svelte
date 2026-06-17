@@ -33,8 +33,25 @@
 
 			<nav class="flex flex-col gap-1 text-sm text-slate-700">
 				<a href="/dashboard" class="rounded px-2 py-1.5 hover:bg-slate-200">Home</a>
-				<a href="/dashboard/stock" class="rounded px-2 py-1.5 hover:bg-slate-200">Productos</a>
-				<a href="/dashboard/empleados" class="rounded px-2 py-1.5 hover:bg-slate-200">Empleados</a>
+
+				{#if ['superuser', 'stock'].includes($authStore.user?.role ?? '')}
+					<a href="/dashboard/stock" class="rounded px-2 py-1.5 hover:bg-slate-200">Productos</a>
+				{/if}
+
+				{#if ['superuser', 'hr'].includes($authStore.user?.role ?? '')}
+					<a href="/dashboard/empleados" class="rounded px-2 py-1.5 hover:bg-slate-200">Empleados</a
+					>
+				{/if}
+
+				{#if ['superuser', 'marketing'].includes($authStore.user?.role ?? '')}
+					<a href="/dashboard/publicidades" class="rounded px-2 py-1.5 hover:bg-slate-200"
+						>Publicidades</a
+					>
+				{/if}
+
+				{#if $authStore.user?.role === 'superuser'}
+					<a href="/dashboard/usuarios" class="rounded px-2 py-1.5 hover:bg-slate-200">Usuarios</a>
+				{/if}
 			</nav>
 
 			<div class="mt-auto border-t border-slate-200 pt-4 text-sm">

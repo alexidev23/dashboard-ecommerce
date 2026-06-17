@@ -14,7 +14,7 @@ const initialState: AuthState = {
 	user: null,
 	accessToken: null,
 	refreshToken: null,
-	isLoading: false
+	isLoading: true
 };
 
 export const authStore = writable<AuthState>(initialState);
@@ -71,7 +71,10 @@ export async function restoreSession(): Promise<void> {
 	const accessToken = localStorage.getItem('accessToken');
 	const refreshToken = localStorage.getItem('refreshToken');
 
-	if (!accessToken || !refreshToken) return;
+	if (!accessToken || !refreshToken) {
+		authStore.update((state) => ({ ...state, isLoading: false }));
+		return;
+	}
 
 	authStore.update((state) => ({ ...state, isLoading: true, accessToken, refreshToken }));
 
@@ -79,11 +82,10 @@ export async function restoreSession(): Promise<void> {
 		const user = await api.get<User>('/me/', {
 			headers: { Authorization: `Bearer ${accessToken}` }
 		});
-
 		authStore.update((state) => ({ ...state, user, isLoading: false }));
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	} catch (error) {
 		clearPersistedTokens();
-		authStore.update(() => ({ ...initialState }));
+		authStore.update(() => ({ ...initialState, isLoading: false }));
 	}
 }
