@@ -43,10 +43,10 @@ INSTALLED_APPS = [
     # Apps de terceros
     'rest_framework',
     'corsheaders',
-
     # Nuestras apps (las vamos a crear pronto)
     'users',
     'inventory',
+    'hr',
 ]
 
 MIDDLEWARE = [
