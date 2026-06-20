@@ -12,6 +12,18 @@ Content-Type: application/json
   "password": "password"
 }
 
+### Crear usuario con password
+POST {{baseUrl}}/api/users/
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "username": "stock_user",
+  "email": "stock@empresa.com",
+  "password": "password1234",
+  "role": "stock"
+}
+
 ### Refrescar el access token
 POST {{baseUrl}}/api/token/refresh/
 Content-Type: application/json
