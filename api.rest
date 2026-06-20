@@ -174,3 +174,23 @@ Authorization: Bearer {{accessToken}}
 ### Filtrar por estado
 GET {{baseUrl}}/api/orders/orders/?status=pending
 Authorization: Bearer {{accessToken}}
+
+### Crear cupón
+POST {{baseUrl}}/api/marketing/coupons/
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "code": "BIENVENIDA10",
+  "description": "10% off primera compra",
+  "discount_type": "percentage",
+  "discount_value": "10.00",
+  "max_uses": 100
+}
+
+### Listar banners (admin)
+GET {{baseUrl}}/api/marketing/banners/
+Authorization: Bearer {{accessToken}}
+
+### Banners públicos (sin auth, probá sin el header Authorization)
+GET {{baseUrl}}/api/marketing/public/banners/
