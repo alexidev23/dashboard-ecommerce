@@ -52,6 +52,10 @@
 				{#if $authStore.user?.role === 'superuser'}
 					<a href="/dashboard/usuarios" class="rounded px-2 py-1.5 hover:bg-slate-200">Usuarios</a>
 				{/if}
+
+				{#if ['superuser', 'stock'].includes($authStore.user?.role ?? '')}
+					<a href="/dashboard/pedidos" class="rounded px-2 py-1.5 hover:bg-slate-200">Pedidos</a>
+				{/if}
 			</nav>
 
 			<div class="mt-auto border-t border-slate-200 pt-4 text-sm">
