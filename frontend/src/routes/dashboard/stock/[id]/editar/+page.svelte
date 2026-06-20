@@ -22,6 +22,10 @@
 	let category = $state<number | null>(null);
 	let is_active = $state(true);
 
+	let existingImageUrl = $state<string | null>(null);
+	let imageFile = $state<File | null>(null);
+	let imagePreview = $state<string | null>(null);
+
 	const productId = Number($page.params.id);
 
 	onMount(async () => {
@@ -38,12 +42,20 @@
 			low_stock_threshold = product.low_stock_threshold;
 			category = product.category;
 			is_active = product.is_active;
+			existingImageUrl = product.image;
 		} catch (e) {
 			error = 'Error al cargar el producto';
 		} finally {
 			isLoading = false;
 		}
 	});
+
+	function handleImageChange(e: Event) {
+		const input = e.currentTarget as HTMLInputElement;
+		const file = input.files?.[0] ?? null;
+		imageFile = file;
+		imagePreview = file ? URL.createObjectURL(file) : null;
+	}
 
 	async function handleSubmit() {
 		error = '';
@@ -64,7 +76,7 @@
 
 		isSubmitting = true;
 		try {
-			await productService.update(productId, result.data);
+			await productService.update(productId, result.data, imageFile);
 			goto('/dashboard/stock');
 		} catch (e) {
 			error = 'Error al actualizar el producto';
@@ -90,6 +102,38 @@
 			}}
 			class="flex flex-col gap-4"
 		>
+			<div>
+				<label class="block text-sm font-medium text-slate-700">Imagen</label>
+				<div class="mt-1 flex items-center gap-4">
+					{#if imagePreview}
+						<img
+							src={imagePreview}
+							alt="Preview"
+							class="h-20 w-20 rounded-md object-cover border border-slate-200"
+						/>
+					{:else if existingImageUrl}
+						<img
+							src={existingImageUrl}
+							alt={name}
+							class="h-20 w-20 rounded-md object-cover border border-slate-200"
+						/>
+					{:else}
+						<div
+							class="h-20 w-20 rounded-md border border-dashed border-slate-300 flex items-center justify-center text-xs text-slate-400"
+						>
+							Sin imagen
+						</div>
+					{/if}
+					<input
+						type="file"
+						accept="image/*"
+						onchange={handleImageChange}
+						class="text-sm text-slate-600"
+					/>
+				</div>
+				<p class="mt-1 text-xs text-slate-500">Dejá vacío para mantener la imagen actual.</p>
+			</div>
+
 			<div>
 				<label class="block text-sm font-medium text-slate-700">Nombre</label>
 				<input

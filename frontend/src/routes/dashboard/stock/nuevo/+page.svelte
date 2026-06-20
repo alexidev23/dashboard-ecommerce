@@ -20,9 +20,24 @@
 	let category = $state<number | null>(null);
 	let is_active = $state(true);
 
+	let imageFile = $state<File | null>(null);
+	let imagePreview = $state<string | null>(null);
+
 	onMount(async () => {
 		categories = await categoryService.getAll();
 	});
+
+	function handleImageChange(e: Event) {
+		const input = e.currentTarget as HTMLInputElement;
+		const file = input.files?.[0] ?? null;
+		imageFile = file;
+
+		if (file) {
+			imagePreview = URL.createObjectURL(file);
+		} else {
+			imagePreview = null;
+		}
+	}
 
 	async function handleSubmit() {
 		error = '';
@@ -44,7 +59,7 @@
 
 		isSubmitting = true;
 		try {
-			await productService.create(result.data);
+			await productService.create(result.data, imageFile);
 			goto('/dashboard/stock');
 		} catch (e) {
 			error = 'Error al crear el producto';
@@ -67,6 +82,31 @@
 		}}
 		class="flex flex-col gap-4"
 	>
+		<div>
+			<label class="block text-sm font-medium text-slate-700">Imagen</label>
+			<div class="mt-1 flex items-center gap-4">
+				{#if imagePreview}
+					<img
+						src={imagePreview}
+						alt="Preview"
+						class="h-20 w-20 rounded-md object-cover border border-slate-200"
+					/>
+				{:else}
+					<div
+						class="h-20 w-20 rounded-md border border-dashed border-slate-300 flex items-center justify-center text-xs text-slate-400"
+					>
+						Sin imagen
+					</div>
+				{/if}
+				<input
+					type="file"
+					accept="image/*"
+					onchange={handleImageChange}
+					class="text-sm text-slate-600"
+				/>
+			</div>
+		</div>
+
 		<div>
 			<label class="block text-sm font-medium text-slate-700">Nombre</label>
 			<input

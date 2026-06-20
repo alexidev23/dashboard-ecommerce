@@ -95,6 +95,7 @@
 		<table class="w-full border-collapse text-sm">
 			<thead>
 				<tr class="border-b border-slate-200 text-left text-slate-600">
+					<th class="pb-2 pr-4"></th>
 					<th class="pb-2 pr-4">Nombre</th>
 					<th class="pb-2 pr-4">Categoría</th>
 					<th class="pb-2 pr-4">Precio</th>
@@ -106,7 +107,19 @@
 			<tbody>
 				{#each products as product (product.id)}
 					<tr class="border-b border-slate-100 hover:bg-slate-50">
+						<td class="py-3 pr-4">
+							{#if product.image}
+								<img
+									src={product.image}
+									alt={product.name}
+									class="h-10 w-10 rounded-md object-cover"
+								/>
+							{:else}
+								<div class="h-10 w-10 rounded-md bg-slate-100"></div>
+							{/if}
+						</td>
 						<td class="py-3 pr-4 font-medium text-slate-900">{product.name}</td>
+						<!-- el resto de las columnas queda igual -->
 						<td class="py-3 pr-4 text-slate-600">{product.category_name ?? '—'}</td>
 						<td class="py-3 pr-4 text-slate-600">${product.price}</td>
 						<td class="py-3 pr-4">

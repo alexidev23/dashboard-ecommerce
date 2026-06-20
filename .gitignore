@@ -3,6 +3,9 @@ __pycache__/
 *.pyc
 backend/venv/
 
+# Media files
+backend/media/
+
 # Variables de entorno
 .env
 *.env

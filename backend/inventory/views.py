@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from .models import Category, Product
 from .serializers import CategorySerializer, ProductSerializer
 from users.permissions import IsStock, IsSuperuserRole
+from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 
 class CategoryViewSet(viewsets.ModelViewSet):
   queryset = Category.objects.all()
@@ -16,6 +17,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
 class ProductViewSet(viewsets.ModelViewSet):
   serializer_class = ProductSerializer
   permission_classes = [IsStock]
+  parser_classes = [MultiPartParser, FormParser, JSONParser]
   filter_backends = [filters.SearchFilter, filters.OrderingFilter]
   search_fields = ['name', 'category__name']
   ordering_fields = ['name', 'price', 'stock', 'created_at']

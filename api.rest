@@ -90,6 +90,10 @@ Content-Type: application/json
 GET {{baseUrl}}/api/inventory/products/
 Authorization: Bearer {{accessToken}}
 
+### Ver producto con imagen
+GET {{baseUrl}}/api/inventory/products/5/
+Authorization: Bearer {{accessToken}}
+
 ### Buscar productos por nombre
 GET {{baseUrl}}/api/inventory/products/?search=zapatilla urbana rojas
 Authorization: Bearer {{accessToken}}
