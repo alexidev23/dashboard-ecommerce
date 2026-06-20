@@ -1,6 +1,6 @@
 ### Variables
 @baseUrl = http://localhost:8000
-@accessToken =
+@accessToken = 
 @refreshToken = 
 
 ### Login - obtener access y refresh token
@@ -130,3 +130,31 @@ Content-Type: application/json
 {
   "is_active": false
 }
+
+### Métricas del dashboard
+GET {{baseUrl}}/api/metrics/
+Authorization: Bearer {{accessToken}}
+
+### Crear pedido con líneas
+POST {{baseUrl}}/api/orders/orders/
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "customer_name": "María García",
+  "customer_email": "maria@example.com",
+  "status": "pending",
+  "notes": "Entregar por la tarde",
+  "items": [
+    { "product": 1, "quantity": 2, "unit_price": 322 },
+    { "product": 2, "quantity": 1, "unit_price": 300 }
+  ]
+}
+
+### Listar pedidos
+GET {{baseUrl}}/api/orders/orders/
+Authorization: Bearer {{accessToken}}
+
+### Filtrar por estado
+GET {{baseUrl}}/api/orders/orders/?status=pending
+Authorization: Bearer {{accessToken}}
